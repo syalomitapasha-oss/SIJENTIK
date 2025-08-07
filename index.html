@@ -1,55 +1,117 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Form Jentik Nyamuk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: sans-serif;
+            background: #cceeff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #128C7E;
+        }
+
+        #status {
+            margin-top: 10px;
+            text-align: center;
+            color: red;
+        }
+    </style>
 </head>
-<body style="font-family:sans-serif;background:#cceeff;padding:20px;">
+<body>
+
+<div class="form-container">
     <h2>Form Pengaduan Jentik Nyamuk</h2>
     <form id="form">
-        <label>Nama:</label><br>
-        <input type="text" id="nama" required><br><br>
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" required>
 
-        <label>Alamat:</label><br>
-        <input type="text" id="alamat" required><br><br>
+        <label for="alamat">Alamat:</label>
+        <input type="text" id="alamat" required>
 
-        <label>Keterangan:</label><br>
-        <textarea id="pesan" rows="4" required></textarea><br><br>
+        <label for="pesan">Keterangan:</label>
+        <textarea id="pesan" rows="4" required></textarea>
 
         <button type="button" onclick="kirimWA()">Kirim ke WhatsApp</button>
     </form>
+    <p id="status"></p>
+</div>
 
-    <p id="status" style="color:red;"></p>
-
-    <script>
-        function kirimWA() {
-            if (!navigator.geolocation) {
-                document.getElementById('status').innerText = "Browser tidak mendukung GPS.";
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-
-                var nama = document.getElementById('nama').value;
-                var alamat = document.getElementById('alamat').value;
-                var pesan = document.getElementById('pesan').value;
-
-                var link = "https://wa.me/6281524219699?text=" +
-                    encodeURIComponent("Pengaduan Jentik Nyamuk:%0A") +
-                    encodeURIComponent("Nama: " + nama + "%0A") +
-                    encodeURIComponent("Alamat: " + alamat + "%0A") +
-                    encodeURIComponent("Pesan: " + pesan + "%0A") +
-                    encodeURIComponent("Lokasi: https://maps.google.com/?q=" + lat + "," + lon);
-
-                window.open(link, '_blank');
-            }, function(error) {
-                document.getElementById('status').innerText = "Gagal mengambil lokasi. Aktifkan GPS.";
-            });
+<script>
+    function kirimWA() {
+        if (!navigator.geolocation) {
+            document.getElementById('status').innerText = "Browser tidak mendukung GPS.";
+            return;
         }
-    </script>
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            var nama = document.getElementById('nama').value;
+            var alamat = document.getElementById('alamat').value;
+            var pesan = document.getElementById('pesan').value;
+
+            var link = "https://wa.me/6281524219699?text=" +
+                encodeURIComponent("Pengaduan Jentik Nyamuk:%0A") +
+                encodeURIComponent("Nama: " + nama + "%0A") +
+                encodeURIComponent("Alamat: " + alamat + "%0A") +
+                encodeURIComponent("Pesan: " + pesan + "%0A") +
+                encodeURIComponent("Lokasi: https://maps.google.com/?q=" + lat + "," + lon);
+
+            window.open(link, '_blank');
+        }, function(error) {
+            document.getElementById('status').innerText = "Gagal mengambil lokasi. Aktifkan GPS.";
+        });
+    }
+</script>
+
 </body>
 </html>
